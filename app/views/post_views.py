@@ -97,8 +97,19 @@ def add_like():
 
 @post_bp.route("/like/remove", methods=["GET"])
 @login_required
-def add_like():
+def remove_like():
 
     data = request.json
 
     user = get_user()
+
+    if not data.uid:
+        return jsonify({"error": True, "message": "Unspecified Post ID to like"}), 400
+
+    n = Like.delete().where(
+        (Like.post == Post.get(uid=data.uid)) &
+        (Like.user == user)
+    )
+
+    n.execute()
+
