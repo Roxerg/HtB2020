@@ -46,7 +46,7 @@ export const register = async options => {
             },
             body: JSON.stringify(options)
         });
-        if (r.status != 200) {
+        if (r.status != 201) {
             return {
                 error: true
             };
