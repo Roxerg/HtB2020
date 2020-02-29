@@ -76,34 +76,24 @@ def get_list():
     return jsonify(res)
     
 
-@post_bp.route("/like/add", methods=["GET"])
+@post_bp.route("/like/<post_uid>/add", methods=["POST"])
 @login_required
-def add_like():
-
-    data = request.json
+def add_like(post_uid):
 
     user = get_user()
 
-    if not data.uid:
-        return jsonify({"error": True, "message": "Unspecified Post ID to like"}), 400
-
-    new_like = Like(user=user, post=Post.get(uid=data.uid))
+    new_like = Like(user=user, post=Post.get(uid=post_uid))
     new_like.save() 
 
 
-@post_bp.route("/like/remove", methods=["GET"])
+@post_bp.route("/like/<post_uid>/remove", methods=["DELETE"])
 @login_required
-def remove_like():
-
-    data = request.json
+def remove_like(post_uid):
 
     user = get_user()
 
-    if not data.uid:
-        return jsonify({"error": True, "message": "Unspecified Post ID to like"}), 400
-
     try:
-        like = Like.get(post = Post.get(uid=data.uid), user = user)
+        like = Like.get(post = Post.get(uid=post_uid), user = user)
         like.delete()
         return jsonify({"error": False, "message": "Like successfully removed"}), 200
     except:
