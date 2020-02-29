@@ -9,6 +9,7 @@ def generate_token():
 class Post(db_wrapper.Model):
     transloadit_id = CharField(null=False)
     uid = CharField(null=False, default=generate_token)
+    name = CharField(null=False)
     text = TextField(null=False)
     user = ForeignKeyField(User, backref="posts", field="email")
     animal_type = CharField(null=True)

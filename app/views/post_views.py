@@ -47,31 +47,26 @@ def get(uid):
 @login_required
 @post_bp.route("/get", methods=["GET"])
 def get_list():
-    
-    posts = []
-    for p in Post.select(Post, Post.likes.count().alias("likes_count")):
-        posts.append(p)
-
-    if len(posts) == 0: 
-        return jsonify({"error": False, "message": "no posts found"}), 204
-
-    posts.sort(key=lambda p: p.likes_count, reverse=True)
 
     res = []
     user = get_user()
-    for post in posts:
+    for post in Post.select():
         try:
             like = Like.get(post=post, user=user)
             if like.user == user and like.post == post:
                 has_liked = True
+            else:
+                has_liked = False
         except:
             has_liked = False
 
         res.append({
             **post.to_dict,
             'has_liked': has_liked,
-            'total_likes': post.likes_count
+            'total_likes': post.likes.count()
         })
+
+    res.sort(key=lambda p: p['total_likes'], reverse=True)
 
     return jsonify(res)
     
@@ -82,8 +77,17 @@ def add_like(post_uid):
 
     user = get_user()
 
-    new_like = Like(user=user, post=Post.get(uid=post_uid))
-    new_like.save() 
+    try:
+        try:
+            like = Like.get(user=user, post=Post.get(uid=post_uid))
+            return jsonify({'error': False, 'message': 'Post successfully liked.'}), 200
+        except:
+            pass
+        new_like = Like(user=user, post=Post.get(uid=post_uid))
+        new_like.save() 
+        return jsonify({'error': False, 'message': 'Post successfully liked.'}), 200
+    except:
+        return jsonify({'error': True, 'message': 'An unknown error occurred.'}), 500
 
 
 @login_required
