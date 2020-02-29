@@ -11,3 +11,5 @@ class Session(db_wrapper.Model):
     created_at = DateTimeField(default=datetime.now)
     token = CharField(default=generate_token)
     user = ForeignKeyField(User,on_delete='cascade', null=False)
+
+Session.create_table()
