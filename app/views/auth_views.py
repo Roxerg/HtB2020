@@ -34,6 +34,17 @@ def validate():
     except:
         return jsonify({'errors': {}}), 500
 
+@auth_bp.route("/loggedin", methods=["GET"])
+def is_logged_in():
+    if 'session_token' in session:
+        try:
+            sesh = Session.get(token=session['session_token'])
+            return jsonify({'loggedin': True}),200
+        except:
+            return jsonify({'loggedin': False}), 200       
+    else:
+        return jsonify({'loggedin': False}), 200
+
 @auth_bp.route("/register", methods=["POST"])
 def register():
     data = request.json
