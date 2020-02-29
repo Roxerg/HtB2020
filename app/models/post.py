@@ -12,6 +12,7 @@ class Post(db_wrapper.Model):
     text = TextField(null=False)
     user = ForeignKeyField(User, backref="posts")
     animal_type = CharField(null=True)
+    # timestamp = DateField(null=False)
 
     @property
     def to_dict(self):
