@@ -106,10 +106,10 @@ def remove_like():
     if not data.uid:
         return jsonify({"error": True, "message": "Unspecified Post ID to like"}), 400
 
-    n = Like.delete().where(
-        (Like.post == Post.get(uid=data.uid)) &
-        (Like.user == user)
-    )
-
-    n.execute()
+    try:
+        like = Like.get(post = Post.get(uid=data.uid), user = user)
+        like.delete()
+        return jsonify({"error": False, "message": "Like successfully removed"}), 200
+    except:
+        return jsonify({"error": True, "message": "Something went wrong."}), 500
 
