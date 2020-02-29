@@ -61,16 +61,16 @@ def get_list():
     user = get_user()
     for post in posts:
         try:
-            like = Like.get(post=p, user=user)
+            like = Like.get(post=post, user=user)
             if like.user == user and like.post == post:
                 has_liked = True
         except:
             has_liked = False
 
         res.append({
-            **p.to_dict,
+            **post.to_dict,
             'has_liked': has_liked,
-            'total_likes': p.likes_count
+            'total_likes': post.likes_count
         })
 
     return jsonify(res)
