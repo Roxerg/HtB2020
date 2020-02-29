@@ -51,10 +51,58 @@ export const register = async options => {
             };
         } else {
             const json = await r.json();
-            return {
-                error: false,
-                data: json.data
-            };
+            return json.data;
         }
     }
+};
+
+export const addPost = async options => {
+    /*
+     * options values
+     * transloadit_id -> required str
+     * name -> required str, used for categorising vault payments
+     * text -> required str
+     * animal_type -> str, currently required but we could make this default to other
+     */
+    const r = await fetch(`${apiUrl}/posts/create`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: options
+    });
+    if (r.status == 200) {
+        json = await r.json();
+        return json.data;
+    } else {
+        json = await r.json();
+        return {
+            error: true,
+            message: json.message
+        };
+    }
+};
+
+export const getPosts = async () => {
+    const r = await fetch(`${apiUrl}/posts/`, {
+        method: "GET"
+    });
+    const json = await r.json();
+    return json;
+};
+
+const getCurrentUser = async () => {
+    const r = await fetch(`${apiUrl}/auth/currentuser`, {
+        method: "GET"
+    });
+    const json = await r.json();
+    return json;
+};
+
+const getUser = async uid => {
+    const r = await fetch(`${apiUrl}/auth/user/${uid}`, {
+        method: "GET"
+    });
+    const json = await r.json();
+    return json;
 };
