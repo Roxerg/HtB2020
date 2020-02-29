@@ -73,10 +73,10 @@ export const addPost = async options => {
         body: JSON.stringify(options)
     });
     if (r.status == 200) {
-        json = await r.json();
+        const json = await r.json();
         return json.data;
     } else {
-        json = await r.json();
+        const json = await r.json();
         return {
             error: true,
             message: json.message
