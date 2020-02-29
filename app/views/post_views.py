@@ -59,7 +59,7 @@ def get_list():
 
     res = []
     user = get_user()
-    for p in posts:
+    for post in posts:
         try:
             like = Like.get(post=p, user=user)
             if like.user == user and like.post == post:
@@ -75,10 +75,6 @@ def get_list():
 
     return jsonify(res)
     
-
-
-#/like/add
-#/like/remove
 
 @post_bp.route("/like/add", methods=["GET"])
 @login_required
