@@ -5,10 +5,10 @@ export const login = async (username, password) => {
         headers: {
             "Content-Type": "application/json"
         },
-        body: {
+        body: JSON.stringify({
             username: username,
             password: password
-        }
+        })
     });
     const body = await r.json();
     return body;
@@ -29,7 +29,7 @@ export const register = async options => {
         headers: {
             "Content-Type": "application/json"
         },
-        body: options
+        body: JSON.stringify(options)
     });
     if (r.status == 400) {
         const errorJson = await r.json();
@@ -43,7 +43,7 @@ export const register = async options => {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: options
+            body: JSON.stringify(options)
         });
         if (r.status != 200) {
             return {
