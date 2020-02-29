@@ -1,5 +1,6 @@
 from flask import Blueprint, session, jsonify, request
 from app.models import Session, User
+from app.validators import UserValidator
 from datetime import datetime, timedelta
 import functools
 
@@ -22,6 +23,29 @@ def login_required(view):
                 return jsonify({'error': True}), 401
             
 
+@auth_bp.route("/validate", methods=["POST"])
+def validate():
+    data = request.json
+    try:
+        validator = UserValidator()
+        if validator.validate(form_data):
+            return jsonify({'errors': {}}), 200
+        else:
+            return jsonify({'errors': validator.errors}), 400
+    return jsonify({})
+
+@auth_bp.route("/register", methods=["POST"])
+def register():
+    data = request.json
+    password = data.pop("password")
+    try:
+        user = User(**data)
+    except:
+        return jsonify({'error':True, 'message': 'bad request'}), 400
+    user.set_password(password)
+    user.save()
+    return {'error': False, 'message':'User successfully created!', 'data': user.to_dict}, 201
+    
 
 @auth_bp.route('/login', methods=["POST"])
 def login():
