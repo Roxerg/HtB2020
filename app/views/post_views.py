@@ -44,8 +44,8 @@ def get(uid):
         return jsonify({"error": True, "message": "I don't fucking know"}), 504
 
 
-@post_bp.route("/get", methods=["GET"])
 @login_required
+@post_bp.route("/get", methods=["GET"])
 def get_list():
     
     posts = []
@@ -76,8 +76,8 @@ def get_list():
     return jsonify(res)
     
 
-@post_bp.route("/like/<post_uid>/add", methods=["POST"])
 @login_required
+@post_bp.route("/like/<post_uid>/add", methods=["POST"])
 def add_like(post_uid):
 
     user = get_user()
@@ -86,8 +86,8 @@ def add_like(post_uid):
     new_like.save() 
 
 
-@post_bp.route("/like/<post_uid>/remove", methods=["DELETE"])
 @login_required
+@post_bp.route("/like/<post_uid>/remove", methods=["DELETE"])
 def remove_like(post_uid):
 
     user = get_user()
