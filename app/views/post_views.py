@@ -112,4 +112,3 @@ def remove_like():
     )
 
     n.execute()
-
