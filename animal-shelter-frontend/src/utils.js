@@ -1,4 +1,5 @@
 const apiUrl = "http://127.0.0.1:5000/api";
+
 export const login = async (username, password) => {
     const r = await fetch(`${apiUrl}/auth/login`, {
         method: "POST",
