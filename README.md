@@ -1,1 +1,4 @@
-# Retarded Hack 2020
+# Animal Shelter Social Platform 
+### 313 + Rokas
+
+
