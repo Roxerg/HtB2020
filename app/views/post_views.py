@@ -2,26 +2,26 @@ from flask import Blueprint, session, jsonify, request
 from app.models import User, Post, Like, Session
 from .auth_views import login_required
 
-post_bp = Blueprint('auth', __name__)
+post_bp = Blueprint('post', __name__)
 
 def get_user():
     sesh = Session.get(token=session['session_token'])
     user = sesh.user
     return user
 
-@post_bp.route("/create", methods=["POST"])
 @login_required
+@post_bp.route("/create", methods=["POST"])
 def create():
     data = request.json
     user = get_user()
     try:
         post = Post.create(**data, user=user)
-        return jsonify({'error': False, 'message': 'Post successfully created', data:post.to_dict}), 201
+        return jsonify({'error': False, 'message': 'Post successfully created', 'data':post.to_dict}), 201
     except:
         return jsonify({'error':True, 'message': 'Something went wrong :('}), 500
 
-@post_bp.route("/get/<uid>", methods=["GET"])
 @login_required
+@post_bp.route("/get/<uid>", methods=["GET"])
 def get(uid):
     try:
         try:

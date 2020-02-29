@@ -20,8 +20,7 @@ def login_required(view):
                     return view(*args, **kwargs)
             except:
                 session.pop('session_token')
-                return jsonify({'error': True}), 401
-            
+                return jsonify({'error': True}), 401    
 
 @auth_bp.route("/validate", methods=["POST"])
 def validate():
@@ -32,7 +31,8 @@ def validate():
             return jsonify({'errors': {}}), 200
         else:
             return jsonify({'errors': validator.errors}), 400
-    return jsonify({})
+    except:
+        return jsonify({'errors': {}}), 500
 
 @auth_bp.route("/register", methods=["POST"])
 def register():
@@ -44,6 +44,9 @@ def register():
         return jsonify({'error':True, 'message': 'bad request'}), 400
     user.set_password(password)
     user.save()
+    sesh = Session.create(user=user)
+    sesh.save()
+    session['session_token'] = sesh.token
     return {'error': False, 'message':'User successfully created!', 'data': user.to_dict}, 201
     
 
@@ -63,15 +66,15 @@ def login():
             if not user.check_password(password):
                 return jsonify({'error': True, 'message':'Invalid password!'}), 400
             else:
-                session = Session.create(user=user)
-                session.save()
-                session['session_token'] = session.token
+                sesh = Session.create(user=user)
+                sesh.save()
+                session['session_token'] = sesh.token
                 return jsonify({'error':False, 'message':'Successfully logged in!', 'data': user.to_dict}), 200
     except:
         return jsonify({'error': True, 'message':'unknown error'}), 500
 
 @login_required
-@bp.route('/logout')
+@auth_bp.route('/logout')
 def logout():
     if 'session_token' in session:
         del session['session_token']

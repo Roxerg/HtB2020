@@ -7,10 +7,10 @@ def generate_token():
     return secrets.token_urlsafe(12).lower()
 
 class Post(db_wrapper.Model):
-    transloadit_id = Charfield(null=False)
+    transloadit_id = CharField(null=False)
     uid = CharField(null=False, default=generate_token)
     text = TextField(null=False)
-    user = ForeignKeyField(User, backref="posts")
+    user = ForeignKeyField(User, backref="posts", field="email")
     animal_type = CharField(null=True)
     # timestamp = DateField(null=False)
 
@@ -21,7 +21,10 @@ class Post(db_wrapper.Model):
             try:
                 value = getattr(self, field_name, None)
                 if value is not None:
-                    res[field_name] = value
+                    if field_name == "user":
+                        res[field_name] = self.user.uid 
+                    else:
+                        res[field_name] = value
             except:
                 continue
         return res
