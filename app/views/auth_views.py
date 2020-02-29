@@ -27,7 +27,7 @@ def validate():
     data = request.json
     try:
         validator = UserValidator()
-        if validator.validate(form_data):
+        if validator.validate(data):
             return jsonify({'errors': {}}), 200
         else:
             return jsonify({'errors': validator.errors}), 400
