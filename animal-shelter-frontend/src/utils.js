@@ -69,7 +69,7 @@ export const addPost = async options => {
         headers: {
             "Content-Type": "application/json"
         },
-        body: options
+        body: JSON.stringify(options)
     });
     if (r.status == 200) {
         json = await r.json();
