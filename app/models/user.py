@@ -9,7 +9,7 @@ def generate_token():
 class User(db_wrapper.Model):
     created_at = DateTimeField(default=datetime.now, null=False)
     uid = CharField(default=generate_token, null=False)
-    email = CharField(null=False)
+    email = CharField(null=False, unique=True)
     password = CharField(null=True)
     name = CharField(null=False)
     description = TextField(null=False)
