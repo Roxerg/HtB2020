@@ -53,7 +53,7 @@ def get_list():
         posts.append(p)
 
     if len(posts) == 0: 
-        return jsonify({"error": True, "message": "no posts found"}), 404
+        return jsonify({"error": False, "message": "no posts found"}), 204
 
     posts.sort(key=lambda p: p.likes_count, reverse=True)
 
