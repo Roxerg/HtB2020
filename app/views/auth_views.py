@@ -102,7 +102,10 @@ def register():
 
     user.set_password(password)
     user.save()
-    bank_acc = BankAccount(user=user, balance=200)
+    starting_balance = 200
+    if (data['is_organisation']):
+        starting_balance = 0
+    bank_acc = BankAccount(user=user, balance=starting_balance)
     bank_acc.save()
     sesh = Session.create(user=user)
     sesh.save()

@@ -86,7 +86,7 @@ export const addPost = async options => {
     });
     if (r.status == 200) {
         const json = await r.json();
-        return json.data;
+        window.location.reload();
     } else {
         const json = await r.json();
         return {
