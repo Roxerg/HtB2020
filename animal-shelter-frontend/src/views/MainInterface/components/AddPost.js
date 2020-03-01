@@ -20,6 +20,7 @@ import Button from "@material-ui/core/Button";
 import BoneIconGray from "../images/bone-outline.png";
 import BoneIconActive from "../images/bone-active.png";
 import TextField from "@material-ui/core/TextField";
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
 import { addPost } from "../../../utils";
 
@@ -28,7 +29,7 @@ const useStyles = makeStyles(theme => ({
         display: "none"
     },
     root: {
-        marginBottom: theme.spacing(2)
+        margin: '16px'
     },
     expand: {
         transform: "rotate(0deg)",
@@ -64,7 +65,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const addFile = function(files, postData) {
+const addFile = function (files, postData) {
     console.log(files);
     var uppy = window.Robodog.upload(files, {
         params: {
@@ -76,7 +77,7 @@ const addFile = function(files, postData) {
             template_id: "703021ed1a684c3282085de390059cdb"
         }
     })
-        .then(async function(bundle) {
+        .then(async function (bundle) {
             console.log(bundle);
             let uploading = bundle.transloadit[0].ok;
             let r;
@@ -106,39 +107,45 @@ const AddPost = props => {
     const [expanded, setExpanded] = useState(false);
     const [postData, setPostData] = useState({});
     const classes = useStyles();
-    console.log("addpost", props);
-    if (!props.profile.is_organisation) {
-        return null;
-    }
+
+    const handleExpandClick = () => {
+        console.log(!expanded)
+        setExpanded(!expanded);
+    };
+
     return (
         <Card className={classes.root}>
-            <CardHeader title="Add Post" />
-            <form>
+            <CardHeader style={{cursor: 'pointer'}} subheader="Add New Post..." onClick={handleExpandClick} />
+            <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
-                    <TextField label="Dog's name" onChange={e => setPostData({ ...postData, name: e.target.value })} value={postData.name} required fullWidth />
-                    <TextField label="Description" onChange={e => setPostData({ ...postData, text: e.target.value })} value={postData.text} required fullWidth multiline />
-                    <input accept="image/*" className={classes.input} id="contained-button-file" type="file" onChange={e => setPostData({ ...postData, files: e.target.files })} />
-                    <label htmlFor="contained-button-file">
-                        <Button variant="contained" color="primary" component="span">
-                            Upload
+                    <form>
+                            <TextField style={{marginTop: '-10px'}} variant="outlined" label="Animal's name" onChange={e => setPostData({ ...postData, name: e.target.value })} value={postData.name} required fullWidth />
+                            <TextField style={{marginTop: '10px'}} variant="outlined" label="Description" onChange={e => setPostData({ ...postData, text: e.target.value })} value={postData.text} required fullWidth multiline />
+                            <input accept="image/*" className={classes.input} id="contained-button-file" type="file" onChange={e => setPostData({ ...postData, files: e.target.files })} />
+                            <label htmlFor="contained-button-file">
+                                <Button startIcon={<CloudUploadIcon />} style={{marginTop: '10px'}} fullWidth variant="contained" color="primary" component="span">
+                                    Upload
+                                </Button>
+                            </label>
+                        <CardActions disableSpacing>
+                            <div className={classes.boneCount}>
+                                <Button
+                                    className={classes.regularButton}
+                                    type="submit"
+                                    onClick={e => {
+                                        e.preventDefault();
+                                        addFile(postData.files, postData);
+                                    }}
+                                >
+                                    Add!
                         </Button>
-                    </label>
+                            </div>
+                        </CardActions>
+                    </form>
                 </CardContent>
-                <CardActions disableSpacing>
-                    <div className={classes.boneCount}>
-                        <Button
-                            className={classes.regularButton}
-                            type="submit"
-                            onClick={e => {
-                                e.preventDefault();
-                                addFile(postData.files, postData);
-                            }}
-                        >
-                            Add!
-                        </Button>
-                    </div>
-                </CardActions>
-            </form>
+            </Collapse>
+
+
         </Card>
     );
 };

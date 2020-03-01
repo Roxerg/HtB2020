@@ -11,6 +11,7 @@ import Container from "@material-ui/core/Container";
 import PostFeed from "./components/PostFeed";
 import User from "./components/User";
 import AddPost from "./components/AddPost";
+import DataFeed from "./components/DataFeed";
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import Fab from "@material-ui/core/Fab";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
@@ -122,13 +123,13 @@ export default function MainInterface(props) {
                                 <PostFeed profile={props.profile} />
                             </Grid>
                             <Grid item xs={4}>
-                                <Paper className={classes.paper}>Secondary Area</Paper>
+                                <DataFeed profile={props.profile} />
                             </Grid>
                         </Grid>
                     ) : (
                         <Grid container spacing={3}>
                             <Grid item xs={12}>
-                                <PostFeed />
+                                <PostFeed profile={props.profile} />
                             </Grid>
                         </Grid>
                     )}
@@ -139,8 +140,6 @@ export default function MainInterface(props) {
                     <KeyboardArrowUpIcon />
                 </Fab>
             </ScrollTop>
-
-            <AddPost is_organisation={props.profile.is_organisation} />
         </Grid>
     );
 }
