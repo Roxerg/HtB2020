@@ -3,7 +3,7 @@ import Button from '@material-ui/core/Button';
 import Login from './views/LoginInterface/LoginInterface.js'
 import Main from './views/MainInterface/MainInterface.js'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import { register, login } from './utils'
+import { register, login, getCurrentUser } from './utils'
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 
@@ -20,9 +20,11 @@ const theme = createMuiTheme({
 });
 
 
-function App() {
+function App(props) {
 
-  const [profile, setProfile] = useState(null)
+  const profile_fetched = JSON.parse(localStorage.getItem('profile'))
+
+  const [profile, setProfile] = useState(profile_fetched)
   const [loginError, setLoginError] = useState(false)
   const [loginSuccess, setLoginSuccess] = useState(false)
 
@@ -31,6 +33,7 @@ function App() {
       .then(response => {
         if (response.error == false) {
           setProfile(response.data)
+          localStorage.setItem("profile", JSON.stringify(response.data))
           setLoginSuccess(true)
         }
         else {
