@@ -83,9 +83,8 @@ def register():
     customer_id, account_id = create_account({
         "title" : data["title"],
         "first_name" : data["first_name"],
-        "middle_name" : data["middle_name"],
         "last_name" : data["last_name"],
-        "dob" : date(data["year"], data["month"], data["day"]),
+        "dob" : data["date"],
         "gender" : data["gender"],
         "nationality" : data["nationality"],
         "email_address" : data["email_address"],
@@ -170,7 +169,6 @@ def create_account(data):
         customer_id= customer_id,
         title= data["title"],
         first_name=data["first_name"],
-        middle_name=data["middle_name"],
         last_name=data["last_name"],
         dob=data["dob"],
         gender=data["gender"],
