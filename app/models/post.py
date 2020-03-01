@@ -28,6 +28,9 @@ class Post(db_wrapper.Model):
                         res[field_name] = value
             except:
                 continue
+        res['balance'] = 0
+        for trans in self.related_transactions:
+            res['balance'] += trans.amount
         return res
 
 Post.create_table()
