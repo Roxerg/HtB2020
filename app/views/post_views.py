@@ -104,3 +104,21 @@ def remove_like(post_uid):
     except:
         return jsonify({"error": True, "message": "Something went wrong."}), 500
 
+@post_bp.route("/user/current", methods=["GET"])
+@login_required
+def get_user_posts():
+    user = get_user()
+    res = []
+    for post in user.posts:
+        has_liked = False
+        try:
+            like = Like.get(user=user, post=post)
+            has_liked = True
+        except:
+            pass
+        res.append({
+            **post.to_dict,
+            'has_liked': has_liked,
+            'total_likes': post.likes.count()
+        })
+    return jsonify(res), 200
