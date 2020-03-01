@@ -7,6 +7,9 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Logo from './images/logo.png'
 import Paper from '@material-ui/core/Paper'
+import Container from '@material-ui/core/Container'
+import PostFeed from './components/PostFeed.js'
+
 function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
@@ -57,24 +60,27 @@ export default function MainInterface(props) {
                 </Toolbar>
             </AppBar>
             <div className={classes.mainContent}>
-                {
-                    props.profile['is_organisation'] ? (
-                        <Grid container spacing={3}>
-                            <Grid item xs={8}>
-                                <Paper className={classes.paper}>Main Area for posts for carer of doggos!</Paper>
-                            </Grid>
-                            <Grid item xs={4}>
-                                <Paper className={classes.paper}>Secondary Area</Paper>
-                            </Grid>
-                        </Grid>
-                    ) : (
+                <Container maxWidth="md">
+                    {
+                        props.profile['is_organisation'] ? (
                             <Grid container spacing={3}>
-                                <Grid item xs={12}>
-                                    <Paper className={classes.paper}>Full Width for regular doggos!</Paper>
+                                <Grid item xs={8}>
+                                    <PostFeed />
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <Paper className={classes.paper}>Secondary Area</Paper>
                                 </Grid>
                             </Grid>
-                        )
-                }
+                        ) : (
+                                <Grid container spacing={3}>
+                                    <Grid item xs={12}>
+                                        <Paper className={classes.paper}>Full Width for regular doggos!</Paper>
+                                    </Grid>
+                                </Grid>
+                            )
+                    }
+                </Container>
+
             </div>
 
         </Grid>
