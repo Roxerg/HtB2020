@@ -11,7 +11,7 @@ def validate_email_unique(field, data):
 
 class UserValidator(Validator):
 
-    email = StringField(required=True, validators=[validate_email()])
+    email = StringField(required=True, validators=[validate_email(), validate_email_unique])
     name = StringField(required=True, validators=[validate_not_empty()])
     description = StringField(required=True, validators=[validate_not_empty()])
     location = StringField(required=False)

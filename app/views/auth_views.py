@@ -26,20 +26,38 @@ def login_required(view):
                 # lower case session is a flask keyword, hence the sesh
                 sesh = Session.get(token = session['session_token'])
                 if datetime.now() - sesh.created_at > timedelta(days=14):
+                    del session['session_token']
                     return jsonify({'error': True}), 403
                 else:
                     session.pop('session_token')
                     return view(*args, **kwargs)
             except:
                 session.pop('session_token')
-                return jsonify({'error': True}), 401    
+                return jsonify({'error': True}), 401  
+        else:
+            return jsonify({'error': True}), 401   
+
+@login_required
+@auth_bp.route("/currentuser", methods = ["GET"])
+def current_user():
+    user = Session.get(token=session['session_token']).user
+    return jsonify(user.to_dict)
+
+@login_required
+@auth_bp.route("/user/<uid>", methods=["GET"])
+def get_user(uid):
+    try:
+        user = User.get(uid=uid)
+    except:
+        return jsonify({'error': True, 'message': 'Unknown user'}), 400
+    return jsonify(user.to_dict), 200
 
 @auth_bp.route("/validate", methods=["POST"])
 def validate():
     data = request.json
     try:
         validator = UserValidator()
-        if validator.validate(form_data):
+        if validator.validate(data):
             return jsonify({'errors': {}}), 200
         else:
             return jsonify({'errors': validator.errors}), 400
