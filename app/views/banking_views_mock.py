@@ -48,7 +48,7 @@ def get_data():
     trans_dicts = []
 
     for t in trans:
-        trans_dicts.append(t.to_dict())
+        trans_dicts.append(t.to_dict)
 
     result[label] = trans_dicts
 
