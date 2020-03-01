@@ -96,13 +96,14 @@ export const addPost = async options => {
     }
 };
 
-export const getPosts = async setPosts => {
+export const getPosts = async (setPosts, setDirty) => {
     const r = await fetch(`${apiUrl}/posts/get`, {
         method: "GET",
         credentials: "include"
     });
     const json = await r.json();
     setPosts(json);
+    setDirty(false);
 };
 
 export const getCurrentUser = setProfile => {
@@ -127,4 +128,28 @@ export const getUser = async uid => {
     });
     const json = await r.json();
     return json;
+};
+
+export const addLike = async (postUid, setDirty) => {
+    const r = await fetch(`${apiUrl}/posts/like/${postUid}/add`, {
+        method: "POST",
+        credentials: "include"
+    });
+    if (r.status == 200) {
+        setDirty(true);
+    } else {
+        return;
+    }
+};
+
+export const removeLike = async (postUid, setDirty) => {
+    const r = await fetch(`${apiUrl}/posts/like/${postUid}/remove`, {
+        method: "DELETE",
+        credentials: "include"
+    });
+    if (r.status == 200) {
+        setDirty(true);
+    } else {
+        return;
+    }
 };

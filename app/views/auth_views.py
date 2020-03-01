@@ -85,8 +85,8 @@ def register():
     try:
         customer_id, account_id = create_account({
             "title" : data["title"],
-            "first_name" : data["first_name"],
-            "last_name" : data["last_name"],
+            "first_name" : data["name"],
+            "last_name" : "",
             "dob" : data["dob"],
             "gender" : data["gender"],
             "nationality" : data["nationality"],
@@ -177,8 +177,8 @@ def create_account(data):
     customer = client.customers.create_customer(
         customer_id= customer_id,
         title= data["title"],
-        first_name=data["first_name"],
-        last_name=data["last_name"],
+        first_name=data["name"],
+        last_name="",
         dob=data["dob"],
         gender=data["gender"],
         nationality=data["nationality"],

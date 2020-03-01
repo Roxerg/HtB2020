@@ -16,16 +16,17 @@ const useStyles = makeStyles(theme => ({
 
 const PostFeed = props => {
     const [posts, setPosts] = useState([]);
+    const [isDirty, setDirty] = useState();
 
-    if (posts.length == 0) {
-        getPosts(setPosts);
+    if (posts.length == 0 || isDirty) {
+        getPosts(setPosts, setDirty);
     }
 
     const classes = useStyles();
     return (
         <div>
             {posts.map(el => {
-                return <Post donated {...el} />;
+                return <Post donated {...el} setDirty={setDirty} />;
             })}
         </div>
     );

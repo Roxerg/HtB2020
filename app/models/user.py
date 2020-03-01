@@ -11,11 +11,9 @@ class User(db_wrapper.Model):
     uid = CharField(default=generate_token, null=False)
     email = CharField(null=False, unique=True)
     
-    first_name = CharField(null=False)
-    last_name = CharField(null=False)
+    name = CharField(null=False)
 
     dob = DateField(null=True)
-    gender = CharField(null=True)
     nationality = CharField(null=False)
 
     

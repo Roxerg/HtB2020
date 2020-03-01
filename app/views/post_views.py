@@ -98,7 +98,8 @@ def remove_like(post_uid):
 
     try:
         like = Like.get(post = Post.get(uid=post_uid), user = user)
-        like.delete()
+        like.delete_instance()
+        like.save()
         return jsonify({"error": False, "message": "Like successfully removed"}), 200
     except:
         return jsonify({"error": True, "message": "Something went wrong."}), 500

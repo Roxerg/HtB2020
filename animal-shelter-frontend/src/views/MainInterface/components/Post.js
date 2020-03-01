@@ -20,6 +20,8 @@ import Button from "@material-ui/core/Button";
 import BoneIconGray from "../images/bone-outline.png";
 import BoneIconActive from "../images/bone-active.png";
 
+import { addLike, removeLike } from "../../../utils";
+
 const useStyles = makeStyles(theme => ({
     media: {
         height: 0,
@@ -71,7 +73,7 @@ export default function Post(props) {
                     </Avatar>
                 }
                 title={props.name}
-                subheader={props.user.first_name}
+                subheader={props.user.name}
             />
             <CardMedia className={classes.media} image={props.transloadit_id} title="Doggo" />
             <CardContent>
@@ -80,7 +82,13 @@ export default function Post(props) {
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>
-                <Button color={props.has_liked ? "secondary" : "default"} className={!props.has_liked && classes.regularButton}>
+                <Button
+                    color={props.has_liked ? "secondary" : "default"}
+                    className={!props.has_liked && classes.regularButton}
+                    onClick={e => {
+                        props.has_liked ? removeLike(props.uid, props.setDirty) : addLike(props.uid, props.setDirty);
+                    }}
+                >
                     <FavoriteIcon className={classes.likeIcon} />
                     {props.total_likes}
                 </Button>

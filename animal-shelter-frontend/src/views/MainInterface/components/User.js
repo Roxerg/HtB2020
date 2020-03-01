@@ -32,7 +32,7 @@ const User = props => {
         <>
             <img className={classes.profileImg} src={`https://api.adorable.io/avatars/${props.profile.uid}`} />
             <Typography variant="h6" className={classes.text}>
-                {props.profile.first_name} {props.profile.last_name}
+                {props.profile.name}
             </Typography>
             <ExitToAppIcon className={classes.icon} onClick={logout} />
         </>
