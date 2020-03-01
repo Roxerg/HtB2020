@@ -23,7 +23,7 @@ class Post(db_wrapper.Model):
                 value = getattr(self, field_name, None)
                 if value is not None:
                     if field_name == "user":
-                        res[field_name] = self.user.uid 
+                        res[field_name] = self.user.to_dict
                     else:
                         res[field_name] = value
             except:

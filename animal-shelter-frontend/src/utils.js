@@ -78,6 +78,7 @@ export const addPost = async options => {
      */
     const r = await fetch(`${apiUrl}/posts/create`, {
         method: "POST",
+        credentials: "include",
         headers: {
             "Content-Type": "application/json"
         },
@@ -95,12 +96,13 @@ export const addPost = async options => {
     }
 };
 
-export const getPosts = async () => {
-    const r = await fetch(`${apiUrl}/posts/`, {
-        method: "GET"
+export const getPosts = async setPosts => {
+    const r = await fetch(`${apiUrl}/posts/get`, {
+        method: "GET",
+        credentials: "include"
     });
     const json = await r.json();
-    return json;
+    setPosts(json);
 };
 
 export const getCurrentUser = setProfile => {
@@ -120,7 +122,8 @@ export const getCurrentUser = setProfile => {
 
 export const getUser = async uid => {
     const r = await fetch(`${apiUrl}/auth/user/${uid}`, {
-        method: "GET"
+        method: "GET",
+        credentials: "include"
     });
     const json = await r.json();
     return json;

@@ -7,7 +7,7 @@ import Dialog from "@material-ui/core/Dialog";
 
 const useStyle = makeStyles(theme => ({
     fab: {
-        position: "absolute",
+        position: "fixed",
         bottom: 25,
         right: 25
     }

@@ -33,7 +33,8 @@ def login_required(view):
                 session.pop('session_token')
                 return jsonify({'error': True}), 403  
         else:
-            return jsonify({'error': True}), 403   
+            return jsonify({'error': True}), 403
+    return wrapper  
 
 
 
