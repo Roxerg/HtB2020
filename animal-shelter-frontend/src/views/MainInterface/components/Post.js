@@ -23,6 +23,9 @@ import BoneIconActive from "../images/bone-active.png";
 import { addLike, removeLike } from "../../../utils";
 
 const useStyles = makeStyles(theme => ({
+    root: {
+        marginBottom: theme.spacing(2)
+    },
     media: {
         height: 0,
         paddingTop: "90%"
@@ -65,7 +68,7 @@ export default function Post(props) {
     const classes = useStyles();
 
     return (
-        <Card>
+        <Card className={classes.root}>
             <CardHeader
                 avatar={
                     <Avatar className={classes.avatar}>
