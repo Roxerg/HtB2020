@@ -20,7 +20,7 @@ import Button from "@material-ui/core/Button";
 import BoneIconGray from "../images/bone-outline.png";
 import BoneIconActive from "../images/bone-active.png";
 
-import { addLike, removeLike } from "../../../utils";
+import { addLike, removeLike, donate } from "../../../utils";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -66,6 +66,10 @@ const useStyles = makeStyles(theme => ({
 
 export default function Post(props) {
     const classes = useStyles();
+    
+    const addDonate = () => {
+        donate(1, props.user.uid, props.uid, props.setDirty)
+    }
 
     return (
         <Card className={classes.root}>
@@ -97,7 +101,7 @@ export default function Post(props) {
                 </Button>
             
                 <div className={classes.boneCount}>
-                    <Button disabled={props.userIsOrganisation ? true : false} className={props.donated ? classes.boneButtonActive : classes.regularButton}>
+                    <Button disabled={props.userIsOrganisation ? true : false} onClick={() => addDonate()} className={props.donated ? classes.boneButtonActive : classes.regularButton}>
                         <img className={classes.boneIcon} src={props.donated ? BoneIconActive : BoneIconGray} /> {props.balance}
                     </Button>
                 </div>

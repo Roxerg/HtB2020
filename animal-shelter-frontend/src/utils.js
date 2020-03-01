@@ -178,17 +178,18 @@ export const removeLike = async (postUid, setDirty) => {
     }
 };
 
-export const donate = async (amount, receiver_id, post_id) => {
+export const donate = async (amount, receiver_uid, post_uid, setDirty) => {
     const r = await fetch(`${apiUrl}/banking_mock/transfer`, {
         method: "POST",
         credentials: "include",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ amount, receiver_id, post_id })
+        body: JSON.stringify({amount, receiver_uid, post_uid})
     });
     if (r.status == 200) {
         const json = await r.json();
+        setDirty(true);
         return json;
     } else {
         const json = await r.json();

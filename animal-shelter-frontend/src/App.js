@@ -31,6 +31,10 @@ function App(props) {
 
     }
 
+    const handle_setBank = () => {
+        getCurrentUserBanking(setBanking)
+    }
+
     const login_handler = (username, password) => {
         login(username, password).then(response => {
             if (response.error == false) {
@@ -45,7 +49,7 @@ function App(props) {
 
     return (
         <ThemeProvider theme={theme}>
-            {Object.keys(profile).length > 0 ? <Main profile={profile} banking={banking} /> : <Login login={login_handler} register={register} />}
+            {Object.keys(profile).length > 0 ? <Main setBank={handle_setBank} profile={profile} banking={banking} /> : <Login login={login_handler} register={register} />}
             <Snackbar open={loginError} autoHideDuration={3000} onClose={() => setLoginError(false)}>
                 <Alert onClose={() => setLoginError(false)} severity="error">
                     Login credentials incorrect!

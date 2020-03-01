@@ -120,7 +120,7 @@ export default function MainInterface(props) {
                     {props.profile["is_organisation"] ? (
                         <Grid container spacing={3}>
                             <Grid item xs={8}>
-                                <PostFeed profile={props.profile} />
+                                <PostFeed setBank={props.setBank} profile={props.profile} />
                             </Grid>
                             <Grid item xs={4}>
                                 <DataFeed profile={props.profile} />
@@ -129,7 +129,7 @@ export default function MainInterface(props) {
                     ) : (
                         <Grid container spacing={3}>
                             <Grid item xs={12}>
-                                <PostFeed profile={props.profile} />
+                                <PostFeed setBank={props.setBank} profile={props.profile} />
                             </Grid>
                         </Grid>
                     )}
