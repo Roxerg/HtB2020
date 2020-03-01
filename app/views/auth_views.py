@@ -82,27 +82,24 @@ def register():
     data = request.json
     password = data.pop("password")
 
-    try:
-        customer_id, account_id = create_account({
-            "title" : data["title"],
-            "first_name" : data["name"],
-            "last_name" : "",
-            "dob" : data["dob"],
-            "gender" : data["gender"],
-            "nationality" : data["nationality"],
-            "email_address" : data["email"]
-        })
-    except:
-        pass
+    #try:
+    customer_id, account_id = create_account({
+        "title" : data["title"],
+        "name" : data["name"],
+        "last_name" : "",
+        "dob" : data["dob"],
+        "nationality" : data["nationality"],
+        "email" : data["email"]
+    })
+    #except:
+    #    return jsonify({"message" : "EEEEEEE"}), 503
 
     
     try:
-        user = User(**data) 
-                    # vault_account_id = account_id, 
-                    # vault_customer_id = customer_id)
-
+        user = User(**data)
     except:
         return jsonify({'error':True, 'message': 'bad request'}), 400
+
     user.set_password(password)
     user.save()
     bank_acc = BankAccount(user=user, balance=200)
@@ -152,7 +149,7 @@ def logout():
 
 def create_account(data):
 
-    client = TMVaultClient('/home/findlay/Documents/hackathons/HtB2020/vault/data/vault-config.json')
+    client = TMVaultClient('/home/roxerg/Projects/htb2020/vault/data/vault-config.json')
 
     if data["title"] == "mr":
         data["title"] = CustomerTitle.CUSTOMER_TITLE_MR
@@ -163,14 +160,14 @@ def create_account(data):
     else:
         data["title"] = CustomerTitle.CUSTOMER_TITLE_UNKNOWN
 
-
+    """
     if data["gender"] == "male":
         data["gender"] = CustomerGender.CUSTOMER_GENDER_MALE
     elif data["gender"] == "female":
         data["gender"] = CustomerGender.CUSTOMER_GENDER_FEMALE
     else: 
         data["gender"] = CustomerGender.CUSTOMER_GENDER_UNKNOWN
-
+    """
 
     customer_id = ''.join(random.choice("0123456789") for i in range(16))
 
@@ -178,18 +175,22 @@ def create_account(data):
         customer_id= customer_id,
         title= data["title"],
         first_name=data["name"],
-        last_name="",
+        last_name="Lastnaminson",
         dob=data["dob"],
-        gender=data["gender"],
+        gender=CustomerGender.CUSTOMER_GENDER_UNKNOWN,
         nationality=data["nationality"],
-        email_address=data["email_address"]
+        email_address=customer_id+data["email"]
     )
 
     account_id = customer_id+'_account_001'
 
     customer_account = client.accounts.create_account(
         account_id=account_id,
-        product_id='current_account',
+        product_id='smacker_product',
+        instance_param_vals={
+            'arranged_overdraft_limit':'1000',
+            'unarranged_overdraft_limit' : '500'
+        },
         stakeholder_customer_ids=[customer.id_]
     )
 
