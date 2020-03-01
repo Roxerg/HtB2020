@@ -69,7 +69,8 @@ def transfer():
 
 
     payer_bank = BankAccount.get(BankAccount.user == payer)
-    receiver_bank = BankAccount.get(BankAccount.uid == data["receiver_uid"] )
+    user = User.get(uid = data["receiver_uid"] )
+    receiver_bank = BankAccount.get(user = user)
 
     transaction = Transaction(
         payer_bank=payer_bank,
@@ -99,7 +100,7 @@ def transfer():
     trans_dicts = []
 
     for t in trans:
-        trans_dicts.append(t.to_dict())
+        trans_dicts.append(t.to_dict)
 
     result[label] = trans_dicts
 

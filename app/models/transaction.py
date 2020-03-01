@@ -16,7 +16,9 @@ class Transaction(db_wrapper.Model):
         for field_name in self._meta.sorted_field_names:
             try:
                 value = getattr(self, field_name, None)
-                if value is not None:
+                if field_name in ['payer_bank', 'post_ident', 'receiver_bank'] and value is not None:
+                    res[field_name] = value.uid
+                elif value is not None:
                     res[field_name] = value
             except:
                 continue
