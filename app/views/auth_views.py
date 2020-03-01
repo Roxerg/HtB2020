@@ -84,11 +84,10 @@ def register():
         "title" : data["title"],
         "first_name" : data["first_name"],
         "last_name" : data["last_name"],
-        "dob" : data["date"],
+        "dob" : data["dob"],
         "gender" : data["gender"],
         "nationality" : data["nationality"],
-        "email_address" : data["email_address"],
-        "mobile_phone_number" : data["mobile_phone_number"],
+        "email_address" : data["email"]
     })
     
     try:
@@ -143,7 +142,7 @@ def logout():
 
 def create_account(data):
 
-    client = TMVaultClient('/path/to/your/vault-config.json')
+    client = TMVaultClient('/home/findlay/Documents/hackathons/HtB2020/vault/data/vault-config.json')
 
     if data["title"] == "mr":
         data["title"] = CustomerTitle.CUSTOMER_TITLE_MR
@@ -173,15 +172,14 @@ def create_account(data):
         dob=data["dob"],
         gender=data["gender"],
         nationality=data["nationality"],
-        email_address=data["email"],
-        mobile_phone_number=data["mobile_phone_number"]
+        email_address=data["email_address"]
     )
 
     account_id = customer_id+'_account_001'
 
     customer_account = client.accounts.create_account(
         account_id=account_id,
-        product_id='aaaahhhhhhhh_current_acc_test',
+        product_id='current_account',
         stakeholder_customer_ids=[customer.id_]
     )
 
