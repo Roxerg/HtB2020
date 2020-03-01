@@ -5,7 +5,7 @@ import Paper from "@material-ui/core/Paper";
 import Container from "@material-ui/core/Container";
 import Post from "./Post.js";
 import AddPost from "./AddPost";
-import { getPosts } from "../../../utils";
+import { getPosts, getCurrentUserBanking } from "../../../utils";
 import SkeletonPost from './SkeletonPost.js';
 
 const useStyles = makeStyles(theme => ({
@@ -24,6 +24,7 @@ const PostFeed = props => {
 
     if (isDirty) {
         getPosts(setPosts, setDirty);
+        props.setBank()
     }
 
     const classes = useStyles();
