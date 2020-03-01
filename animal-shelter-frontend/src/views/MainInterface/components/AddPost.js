@@ -1,6 +1,9 @@
 import React, { useState } from "react";
-import Fab from "@material-ui/core/Fab";
 import { makeStyles } from "@material-ui/core/styles";
+
+import Fab from "@material-ui/core/Fab";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import Dialog from "@material-ui/core/Dialog";
 
 const useStyle = makeStyles(theme => ({
     fab: {
@@ -16,10 +19,15 @@ const AddPost = props => {
     if (!props.is_organisation) {
         return null;
     }
-    return expanded ? null : (
-        <Fab className={classes.fab} color="primary" onClick={e => setExpanded(true)}>
-            +
-        </Fab>
+    return (
+        <>
+            <Dialog onClose={e => setExpanded(false)} open={expanded}>
+                <DialogTitle>Add Post</DialogTitle>
+            </Dialog>
+            <Fab className={classes.fab} color="primary" onClick={e => setExpanded(true)}>
+                +
+            </Fab>
+        </>
     );
 };
 
