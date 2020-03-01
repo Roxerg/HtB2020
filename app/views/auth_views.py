@@ -7,12 +7,12 @@ import functools
 import random
 
 import sys
-sys.path.insert(0,'../..')
+#sys.path.insert(0,'../..')
 
-from vault.py_tm_vault_client.tmvault import TMVaultClient
-from vault.py_tm_vault_client.tmvault.enums import CustomerGender, CustomerTitle
+#from vault.py_tm_vault_client.tmvault import TMVaultClient
+#from vault.py_tm_vault_client.tmvault.enums import CustomerGender, CustomerTitle
 
-from vault.py_tm_vault_client.tmvault import TMVaultClient
+#from vault.py_tm_vault_client.tmvault import TMVaultClient
 from datetime import date
 
 
@@ -82,8 +82,9 @@ def register():
     data = request.json
     password = data.pop("password")
 
-    #try:
-    customer_id, account_id = create_account({
+    """
+    try:
+        customer_id, account_id = create_account({
         "title" : data["title"],
         "name" : data["name"],
         "last_name" : "",
@@ -91,8 +92,10 @@ def register():
         "nationality" : data["nationality"],
         "email" : data["email"]
     })
-    #except:
+    except:
+        pass
     #    return jsonify({"message" : "EEEEEEE"}), 503
+    """
 
     
     try:

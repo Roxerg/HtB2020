@@ -7,36 +7,10 @@ import functools
 from datetime import date
 
 
+from .auth_views import login_required
+from .post_views import get_user
 
 banking_mock_bp = Blueprint('banking_mock', __name__)
-
-def get_user():
-    sesh = Session.get(token=session['session_token'])
-    user = sesh.user
-    return user
-
-
-def login_required(view):
-    @functools.wraps(view)
-    def wrapper(*args, **kwargs):
-        if 'session_token' in session:
-            try:
-                # lower case session is a flask keyword, hence the sesh
-                sesh = Session.get(token = session['session_token'])
-                if datetime.now() - sesh.created_at > timedelta(days=14):
-                    del session['session_token']
-                    return jsonify({'error': True}), 403
-                else:
-                    session.pop('session_token')
-                    return view(*args, **kwargs)
-            except:
-                session.pop('session_token')
-                return jsonify({'error': True}), 403  
-        else:
-            return jsonify({'error': True}), 403
-    return wrapper  
-
-
 
 @banking_mock_bp.route("/fund", methods=["POST"])
 @login_required

@@ -5,11 +5,11 @@ from datetime import datetime, timedelta
 import functools
 
 import sys
-sys.path.insert(0,'../..')
+#sys.path.insert(0,'../..')
 
-from vault.py_tm_vault_client.tmvault import TMVaultClient
-client = TMVaultClient('/home/roxerg/Projects/htb2020/vault/data/vault-config.json')
-from vault.py_tm_vault_client.tmvault.enums import CustomerGender, CustomerTitle
+#from vault.py_tm_vault_client.tmvault import TMVaultClient
+#client = TMVaultClient('/home/roxerg/Projects/htb2020/vault/data/vault-config.json')
+#from vault.py_tm_vault_client.tmvault.enums import CustomerGender, CustomerTitle
 
 #import vault.py_tm_vault_client.tmvault.client.transactions as tm_transactions
 #import vault.py_tm_vault_client.tmvault.client.accounts as tm_accounts
@@ -19,44 +19,11 @@ from datetime import date
 
 banking_bp = Blueprint('banking', __name__)
 
-def get_user():
-    print("---------")
-    print(session)
-    print("---------")
-    sesh = Session.get(token=session['session_token'])
-    user = sesh.user
-    return user
-
-
-def login_required(view):
-    @functools.wraps(view)
-    def wrapper(*args, **kwargs):
-        if 'session_token' in session:
-            try:
-                # lower case session is a flask keyword, hence the sesh
-                sesh = Session.get(token = session['session_token'])
-                if datetime.now() - sesh.created_at > timedelta(days=14):
-                    del session['session_token']
-                    return jsonify({'error': True}), 403
-                else:
-                    session.pop('session_token')
-                    return view(*args, **kwargs)
-            except:
-                session.pop('session_token')
-                return jsonify({'error': True}), 403  
-        else:
-            return jsonify({'error': True}), 403
-    return wrapper  
-
-
-
 
 
 @banking_bp.route("/fund", methods=["GET"])
 @login_required
 def fund():
-
-
 
 
     return jsonify({})
@@ -66,6 +33,8 @@ def fund():
 @banking_bp.route("/getdata", methods=["GET"])
 def get_data():
 
+    return 0 
+"""
     #user = get_user()
 
     user = User.get(User.uid == "q1xd05vxlyzgmn81")
@@ -90,12 +59,14 @@ def get_data():
         "status" : acc_data.status.name,
         "transactions" : flow
         })
-
+"""
 
 # @login_required
 @banking_bp.route("/transfer", methods=["POST"])
 def transfer():
 
+    return 0
+"""
     data = request.json
 
     #user = get_user()
@@ -146,4 +117,4 @@ def transfer():
 
 
     return jsonify({"message" : "Success!"})
-    
+    """
