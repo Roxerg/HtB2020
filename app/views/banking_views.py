@@ -4,6 +4,9 @@ from app.validators import UserValidator
 from datetime import datetime, timedelta
 import functools
 
+
+from .auth_views import login_required
+
 import sys
 #sys.path.insert(0,'../..')
 

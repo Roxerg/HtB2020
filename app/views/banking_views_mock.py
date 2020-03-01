@@ -86,9 +86,27 @@ def transfer():
     receiver_bank.save()
 
 
+    if payer.is_organisation:
+        label = "income"
+        trans = Transaction.select().where(Transaction.receiver_bank == receiver_bank)
+    else:
+        label = "expenses"
+        trans = Transaction.select().where(Transaction.payer_bank == payer_bank)
+
+    result = {}
+    result["balance"] = payer_bank.balance
+
+    trans_dicts = []
+
+    for t in trans:
+        trans_dicts.append(t.to_dict())
+
+    result[label] = trans_dicts
+
+
     return jsonify({
         "message" : "Transaction Success",
-        "amount" : data["amount"]
+        "payload" : result
     })
     
 
