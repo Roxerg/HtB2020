@@ -17,7 +17,6 @@ class User(db_wrapper.Model):
     dob = DateField(null=True)
     gender = CharField(null=True)
     nationality = CharField(null=False)
-    mobile_phone_number = CharField(null=False)
 
     
     
@@ -27,8 +26,8 @@ class User(db_wrapper.Model):
     
     password = CharField(null=True)
 
-    vault_account_id = CharField(null=False)
-    vault_customer_id = CharField(null=False)
+    vault_account_id = CharField(null=True)
+    vault_customer_id = CharField(null=True)
 
     # Will need to enter bank account information later
 

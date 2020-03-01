@@ -80,20 +80,23 @@ def register():
     data = request.json
     password = data.pop("password")
 
-    customer_id, account_id = create_account({
-        "title" : data["title"],
-        "first_name" : data["first_name"],
-        "last_name" : data["last_name"],
-        "dob" : data["dob"],
-        "gender" : data["gender"],
-        "nationality" : data["nationality"],
-        "email_address" : data["email"]
-    })
+    try:
+        customer_id, account_id = create_account({
+            "title" : data["title"],
+            "first_name" : data["first_name"],
+            "last_name" : data["last_name"],
+            "dob" : data["dob"],
+            "gender" : data["gender"],
+            "nationality" : data["nationality"],
+            "email_address" : data["email"]
+        })
+    except:
+        pass
     
     try:
-        user = User(**data, 
-                    vault_account_id = account_id, 
-                    vault_customer_id = customer_id)
+        user = User(**data) 
+                    # vault_account_id = account_id, 
+                    # vault_customer_id = customer_id)
     except:
         return jsonify({'error':True, 'message': 'bad request'}), 400
     user.set_password(password)
