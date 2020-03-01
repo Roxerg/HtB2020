@@ -1,5 +1,5 @@
 from flask import Blueprint, session, jsonify, request
-from app.models import Session, User
+from app.models import Session, User, BankAccount
 from app.validators import UserValidator
 from datetime import datetime, timedelta
 import functools
@@ -94,15 +94,19 @@ def register():
         })
     except:
         pass
+
     
     try:
         user = User(**data) 
                     # vault_account_id = account_id, 
                     # vault_customer_id = customer_id)
+
     except:
         return jsonify({'error':True, 'message': 'bad request'}), 400
     user.set_password(password)
     user.save()
+    bank_acc = BankAccount(user=user, balance=200)
+    bank_acc.save()
     sesh = Session.create(user=user)
     sesh.save()
     session['session_token'] = sesh.token

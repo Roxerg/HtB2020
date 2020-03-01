@@ -59,19 +59,20 @@ def get_data():
 @login_required
 def transfer():
 
+    data = request.json
 
     created_payment = client.payments.create_payment(
-    amount='10.01',
-    currency='GBP',
-    debtor_account_id=alice_personal_account.id_,
-    debtor_sort_code=alice_personal_account.uk_sort_code,
-    debtor_account_number=alice_personal_account.uk_account_number,
-    creditor_account_id=joint_account.id_,
-    creditor_sort_code=joint_account.uk_sort_code,
-    creditor_account_number=joint_account.uk_account_number,
-    reference='my first payment',
-    metadata={'key': 'value'}
-)
+        amount='10.01',
+        currency='GBP',
+        debtor_account_id=alice_personal_account.id_,
+        debtor_sort_code=alice_personal_account.uk_sort_code,
+        debtor_account_number=alice_personal_account.uk_account_number,
+        creditor_account_id=joint_account.id_,
+        creditor_sort_code=joint_account.uk_sort_code,
+        creditor_account_number=joint_account.uk_account_number,
+        reference='my first payment',
+        metadata={'key': 'value'}
+    )
 
 
     return 0
