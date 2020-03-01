@@ -95,8 +95,9 @@ export default function Post(props) {
                     <FavoriteIcon className={classes.likeIcon} />
                     {props.total_likes}
                 </Button>
+            
                 <div className={classes.boneCount}>
-                    <Button className={props.donated ? classes.boneButtonActive : classes.regularButton}>
+                    <Button disabled={props.userIsOrganisation ? true : false} className={props.donated ? classes.boneButtonActive : classes.regularButton}>
                         <img className={classes.boneIcon} src={props.donated ? BoneIconActive : BoneIconGray} /> {props.balance}
                     </Button>
                 </div>

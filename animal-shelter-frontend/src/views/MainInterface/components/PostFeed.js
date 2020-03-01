@@ -34,7 +34,7 @@ const PostFeed = props => {
             {
                 posts.length > 0 ? (
                     posts.map(el => {
-                        return <Post donated {...el} setDirty={setDirty} />;
+                        return <Post userIsOrganisation={props.profile.is_organisation} donated {...el} setDirty={setDirty} />;
                     })
                 ) : (
                         [...Array(5)].map(el => (
