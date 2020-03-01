@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Container from "@material-ui/core/Container";
 import Post from "./Post.js";
+import AddPost from "./AddPost";
 import { getPosts } from "../../../utils";
 import SkeletonPost from './SkeletonPost.js';
 
@@ -19,6 +20,8 @@ const PostFeed = props => {
     const [posts, setPosts] = useState([]);
     const [isDirty, setDirty] = useState(true);
 
+    console.log("postfeed", props);
+
     if (isDirty) {
         getPosts(setPosts, setDirty);
     }
@@ -26,6 +29,7 @@ const PostFeed = props => {
     const classes = useStyles();
     return (
         <div>
+            {props.profile.is_organisation ? <AddPost profile={props.profile} /> : null}
             {
                 posts.length > 0 ? (
                     posts.map(el => {
@@ -35,7 +39,7 @@ const PostFeed = props => {
                         [...Array(5)].map(el => (
                             <SkeletonPost />
                         ))
-            )
+                    )
             }
 
         </div>

@@ -11,11 +11,11 @@ import Container from "@material-ui/core/Container";
 import PostFeed from "./components/PostFeed";
 import User from "./components/User";
 import AddPost from "./components/AddPost";
-import useScrollTrigger from '@material-ui/core/useScrollTrigger';
-import Fab from '@material-ui/core/Fab';
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import Zoom from '@material-ui/core/Zoom';
-import PropTypes from 'prop-types';
+import useScrollTrigger from "@material-ui/core/useScrollTrigger";
+import Fab from "@material-ui/core/Fab";
+import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
+import Zoom from "@material-ui/core/Zoom";
+import PropTypes from "prop-types";
 
 function ScrollTop(props) {
     const { children, window } = props;
@@ -26,14 +26,14 @@ function ScrollTop(props) {
     const trigger = useScrollTrigger({
         target: window ? window() : undefined,
         disableHysteresis: true,
-        threshold: 100,
+        threshold: 100
     });
 
     const handleClick = event => {
-        const anchor = (event.target.ownerDocument || document).querySelector('#back-to-top-anchor');
+        const anchor = (event.target.ownerDocument || document).querySelector("#back-to-top-anchor");
 
         if (anchor) {
-            anchor.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            anchor.scrollIntoView({ behavior: "smooth", block: "center" });
         }
     };
 
@@ -52,7 +52,7 @@ ScrollTop.propTypes = {
      * Injected by the documentation to work in an iframe.
      * You won't need it on your project.
      */
-    window: PropTypes.func,
+    window: PropTypes.func
 };
 
 function Copyright() {
@@ -88,14 +88,14 @@ const useStyles = makeStyles(theme => ({
         width: "100%"
     },
     scrollToTop: {
-        position: 'fixed',
+        position: "fixed",
         bottom: theme.spacing(3),
-        left: 'calc(50vw - 50px)'
-      },
-      topToolbar: {
-          height: 0,
-          minHeight: 0
-      }
+        left: "calc(50vw - 50px)"
+    },
+    topToolbar: {
+        height: 0,
+        minHeight: 0
+    }
 }));
 
 export default function MainInterface(props) {
@@ -119,19 +119,19 @@ export default function MainInterface(props) {
                     {props.profile["is_organisation"] ? (
                         <Grid container spacing={3}>
                             <Grid item xs={8}>
-                                <PostFeed />
+                                <PostFeed profile={props.profile} />
                             </Grid>
                             <Grid item xs={4}>
                                 <Paper className={classes.paper}>Secondary Area</Paper>
                             </Grid>
                         </Grid>
                     ) : (
-                            <Grid container spacing={3}>
-                                <Grid item xs={12}>
-                                    <PostFeed />
-                                </Grid>
+                        <Grid container spacing={3}>
+                            <Grid item xs={12}>
+                                <PostFeed />
                             </Grid>
-                        )}
+                        </Grid>
+                    )}
                 </Container>
             </div>
             <ScrollTop {...props}>
