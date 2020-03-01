@@ -120,17 +120,6 @@ export default function MainInterface(props) {
                         <Grid container spacing={3}>
                             <Grid item xs={8}>
                                 <PostFeed />
-                                <Paper className={classes.paper}>
-                                {[...new Array(100)]
-            .map(
-              () => `Cras mattis consectetur purus sit amet fermentum.
-Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`,
-            )
-            .join('\n')}
-                                </Paper>
-
                             </Grid>
                             <Grid item xs={4}>
                                 <Paper className={classes.paper}>Secondary Area</Paper>

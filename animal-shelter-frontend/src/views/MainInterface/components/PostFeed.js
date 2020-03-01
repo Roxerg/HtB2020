@@ -5,6 +5,7 @@ import Paper from "@material-ui/core/Paper";
 import Container from "@material-ui/core/Container";
 import Post from "./Post.js";
 import { getPosts } from "../../../utils";
+import SkeletonPost from './SkeletonPost.js';
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -25,9 +26,18 @@ const PostFeed = props => {
     const classes = useStyles();
     return (
         <div>
-            {posts.map(el => {
-                return <Post donated {...el} setDirty={setDirty} />;
-            })}
+            {
+                posts.length > 0 ? (
+                    posts.map(el => {
+                        return <Post donated {...el} setDirty={setDirty} />;
+                    })
+                ) : (
+                        [...Array(5)].map(el => (
+                            <SkeletonPost />
+                        ))
+            )
+            }
+
         </div>
     );
 };
