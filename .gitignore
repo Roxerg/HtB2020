@@ -2,3 +2,5 @@ __pycache__
 .vscode
 *.sqlite
 backend-env/
+vault/data
+vault/py_tm_vault_client
