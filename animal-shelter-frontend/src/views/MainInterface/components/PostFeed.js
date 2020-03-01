@@ -6,6 +6,7 @@ import Container from "@material-ui/core/Container";
 import Post from "./Post.js";
 import AddPost from "./AddPost";
 import { getPosts } from "../../../utils";
+import SkeletonPost from './SkeletonPost.js';
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -29,9 +30,18 @@ const PostFeed = props => {
     return (
         <div>
             {props.profile.is_organisation ? <AddPost profile={props.profile} /> : null}
-            {posts.map((el, key) => {
-                return <Post donated {...el} setDirty={setDirty} key={key} />;
-            })}
+            {
+                posts.length > 0 ? (
+                    posts.map(el => {
+                        return <Post donated {...el} setDirty={setDirty} />;
+                    })
+                ) : (
+                        [...Array(5)].map(el => (
+                            <SkeletonPost />
+                        ))
+                    )
+            }
+
         </div>
     );
 };
