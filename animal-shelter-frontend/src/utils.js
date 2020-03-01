@@ -92,7 +92,7 @@ export const getPosts = async () => {
     return json;
 };
 
-const getCurrentUser = async () => {
+export const getCurrentUser = async () => {
     const r = await fetch(`${apiUrl}/auth/currentuser`, {
         method: "GET"
     });
@@ -100,7 +100,7 @@ const getCurrentUser = async () => {
     return json;
 };
 
-const getUser = async uid => {
+export const getUser = async uid => {
     const r = await fetch(`${apiUrl}/auth/user/${uid}`, {
         method: "GET"
     });

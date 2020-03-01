@@ -15,6 +15,9 @@ class User(db_wrapper.Model):
     description = TextField(null=False)
     location = CharField(null=True)
     is_organisation = BooleanField(null=False, default=False)
+    
+    vault_account_id = CharField(null=False)
+    vault_customer_id = CharField(null=False)
 
     # Will need to enter bank account information later
 
