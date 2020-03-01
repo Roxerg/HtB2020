@@ -96,7 +96,7 @@ export const addPost = async options => {
     }
 };
 
-export const getPosts = async (setPosts, setDirty) => {
+export const getCurrentUserPosts = async (setPosts, setDirty) => {
     const r = await fetch(`${apiUrl}/posts/user/current`, {
         method: "GET",
         credentials: "include"
@@ -106,7 +106,7 @@ export const getPosts = async (setPosts, setDirty) => {
     setDirty(false);
 };
 
-export const getCurrentUserPosts = async (setPosts, setDirty) => {
+export const getPosts = async (setPosts, setDirty) => {
     const r = await fetch(`${apiUrl}/posts/get`, {
         method: "GET",
         credentials: "include"
@@ -185,7 +185,7 @@ export const donate = async (amount, receiver_id, post_id) => {
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({amount, receiver_id, post_id})
+        body: JSON.stringify({ amount, receiver_id, post_id })
     });
     if (r.status == 200) {
         const json = await r.json();
