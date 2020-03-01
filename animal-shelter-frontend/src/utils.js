@@ -96,6 +96,16 @@ export const addPost = async options => {
     }
 };
 
+export const getCurrentUserPosts = async (setPosts, setDirty) => {
+    const r = await fetch(`${apiUrl}/posts/user/current`, {
+        method: "GET",
+        credentials: "include"
+    });
+    const json = await r.json();
+    setPosts(json);
+    setDirty(false);
+};
+
 export const getPosts = async (setPosts, setDirty) => {
     const r = await fetch(`${apiUrl}/posts/get`, {
         method: "GET",
