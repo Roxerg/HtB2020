@@ -97,7 +97,7 @@ export default function Post(props) {
                 </Button>
                 <div className={classes.boneCount}>
                     <Button className={props.donated ? classes.boneButtonActive : classes.regularButton}>
-                        <img className={classes.boneIcon} src={props.donated ? BoneIconActive : BoneIconGray} /> 1.2k
+                        <img className={classes.boneIcon} src={props.donated ? BoneIconActive : BoneIconGray} /> {props.balance}
                     </Button>
                 </div>
             </CardActions>

@@ -1,4 +1,5 @@
 from flask import Blueprint, session, jsonify, request
+from app.views.auth_views import login_required
 from app.models import Session, User
 from app.validators import UserValidator
 from datetime import datetime, timedelta
