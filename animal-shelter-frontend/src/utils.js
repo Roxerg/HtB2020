@@ -92,12 +92,16 @@ export const getPosts = async () => {
     return json;
 };
 
-export const getCurrentUser = async () => {
-    const r = await fetch(`${apiUrl}/auth/currentuser`, {
+export const getCurrentUser = setProfile => {
+    fetch(`${apiUrl}/auth/currentuser`, {
         method: "GET"
+    }).then(r => {
+        if (r.status == 200) {
+            r.json().then(json => {
+                setProfile();
+            });
+        }
     });
-    const json = await r.json();
-    return json;
 };
 
 export const getUser = async uid => {
