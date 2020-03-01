@@ -121,4 +121,5 @@ def get_user_posts():
             'has_liked': has_liked,
             'total_likes': post.likes.count()
         })
+    res.sort(key=lambda p: p['total_likes'], reverse=True)
     return jsonify(res), 200
