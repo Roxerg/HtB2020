@@ -3,6 +3,7 @@ const apiUrl = "http://127.0.0.1:5000/api";
 export const login = async (username, password) => {
     const r = await fetch(`${apiUrl}/auth/login`, {
         method: "POST",
+        credentials: "include",
         headers: {
             "Content-Type": "application/json"
         },
@@ -13,6 +14,15 @@ export const login = async (username, password) => {
     });
     const body = await r.json();
     return body;
+};
+
+export const logout = async () => {
+    const r = await fetch(`${apiUrl}/auth/logout`, {
+        method: "GET",
+        credentials: "include"
+    });
+    const json = await r.json();
+    window.location.reload();
 };
 
 export const register = async options => {
@@ -27,6 +37,7 @@ export const register = async options => {
      */
     let r = await fetch(`${apiUrl}/auth/validate`, {
         method: "POST",
+        credentials: "include",
         headers: {
             "Content-Type": "application/json"
         },
@@ -93,12 +104,15 @@ export const getPosts = async () => {
 };
 
 export const getCurrentUser = setProfile => {
-    fetch(`${apiUrl}/auth/currentuser`, {
-        method: "GET"
+    return fetch(`${apiUrl}/auth/currentuser`, {
+        method: "GET",
+        credentials: "include"
     }).then(r => {
         if (r.status == 200) {
             r.json().then(json => {
-                setProfile();
+                console.log(json);
+                setProfile(json);
+                return true;
             });
         }
     });
