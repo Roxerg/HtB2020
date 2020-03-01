@@ -21,6 +21,7 @@ import {register} from '../../utils.js'
 import citiesInUK from './cities.json'
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import listOfNationalities from './nationalities.json'
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -80,6 +81,9 @@ const useStyles = makeStyles(theme => ({
       fontSize: 18,
     },
   },
+  dateStyle: {
+    marginTop: theme.spacing(1)
+  }
 }));
 
 export default function LoginInterface(props) {
@@ -88,7 +92,7 @@ export default function LoginInterface(props) {
   const classes = useStyles();
   const [loginView, setLoginView] = useState(true);
   const [loginData, setLoginData] = useState({ email: '', password: '' })
-  const [registerData, setRegisterData] = useState({ email: '', password: '', name: '', description: '', location: '', is_organisation: false })
+  const [registerData, setRegisterData] = useState({ email: '', password: '', name: '', description: '', location: '', dob: "", nationality: "", is_organisation: false })
   const [errorRequest, setErrorRequest] = useState(false)
   const [successRequest, setSuccessRequest] = useState(false)
 
@@ -248,6 +252,42 @@ export default function LoginInterface(props) {
                       }}
                     />
                   )}
+                />
+                <Autocomplete
+                  id="nationalities-signup"
+                  options={listOfNationalities}
+                  classes={{
+                    option: classes.option,
+                  }}
+                  autoHighlight
+                  value={registerData.nationality}
+                  onChange={(obj, newval) => setRegisterData({ ...registerData, nationality: newval })}
+                  renderInput={params => (
+                    <TextField
+                      {...params}
+                      label={registerData.is_organisation ? "Home Country (Organisation)" : "Nationality"}
+                      margin="dense"
+                      variant="outlined"
+                      inputProps={{
+                        ...params.inputProps,
+                        autoComplete: 'new-password-2', // disable autocomplete and autofill
+                      }}
+                    />
+                  )}
+                />
+                <TextField
+                  id="date"
+                  label={registerData.is_organisation ? "Organisation Start Date" : "Birthdate"}
+                  type="date"
+                  className={classes.dateStyle}
+                  variant="outlined"
+                  value={registerData.dob}
+                  onChange={obj => setRegisterData({ ...registerData, dob: obj.target.value })}
+                  // className={classes.textField}
+                  fullWidth
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
                 />
                 <FormControlLabel
                   control={
