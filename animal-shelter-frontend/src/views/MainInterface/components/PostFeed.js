@@ -30,6 +30,7 @@ const PostFeed = props => {
     return (
         <div>
             {props.profile.is_organisation ? <AddPost profile={props.profile} /> : null}
+            <div style={{margin: '16px'}}>
             {
                 posts.length > 0 ? (
                     posts.map(el => {
@@ -41,7 +42,7 @@ const PostFeed = props => {
                         ))
                     )
             }
-
+</div>
         </div>
     );
 };

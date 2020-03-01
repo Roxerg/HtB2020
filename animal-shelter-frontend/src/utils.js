@@ -121,6 +121,20 @@ export const getCurrentUser = setProfile => {
     });
 };
 
+export const getCurrentUserBanking = setBanking => {
+    return fetch(`${apiUrl}/banking_mock/getdata`, {
+        method: "GET",
+        credentials: "include"
+    }).then(r => {
+        if (r.status == 200) {
+            r.json().then(json => {
+                setBanking(json);
+                return true;
+            });
+        }
+    });
+};
+
 export const getUser = async uid => {
     const r = await fetch(`${apiUrl}/auth/user/${uid}`, {
         method: "GET",

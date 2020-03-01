@@ -128,7 +128,7 @@ export default function MainInterface(props) {
                     ) : (
                         <Grid container spacing={3}>
                             <Grid item xs={12}>
-                                <PostFeed />
+                                <PostFeed profile={props.profile} />
                             </Grid>
                         </Grid>
                     )}
@@ -140,7 +140,6 @@ export default function MainInterface(props) {
                 </Fab>
             </ScrollTop>
 
-            <AddPost is_organisation={props.profile.is_organisation} />
         </Grid>
     );
 }
