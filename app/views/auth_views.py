@@ -29,22 +29,24 @@ def login_required(view):
                     del session['session_token']
                     return jsonify({'error': True}), 403
                 else:
-                    session.pop('session_token')
                     return view(*args, **kwargs)
             except:
-                session.pop('session_token')
                 return jsonify({'error': True}), 403  
         else:
-            return jsonify({'error': True}), 403   
+            return jsonify({'error': True}), 403 
+    return wrapper 
 
-@login_required
 @auth_bp.route("/currentuser", methods = ["GET"])
-def current_user():
-    user = Session.get(token=session['session_token']).user
-    return jsonify(user.to_dict)
-
 @login_required
+def current_user():
+    if 'session_token' in session:
+        user = Session.get(token=session['session_token']).user
+        return jsonify(user.to_dict)
+    else:
+        return jsonify({}), 204
+
 @auth_bp.route("/user/<uid>", methods=["GET"])
+@login_required
 def get_user(uid):
     try:
         user = User.get(uid=uid)
@@ -126,12 +128,13 @@ def login():
                 sesh = Session.create(user=user)
                 sesh.save()
                 session['session_token'] = sesh.token
+                session.modified = True
                 return jsonify({'error':False, 'message':'Successfully logged in!', 'data': user.to_dict}), 200
     except:
         return jsonify({'error': True, 'message':'unknown error'}), 500
 
-@login_required
 @auth_bp.route('/logout')
+@login_required
 def logout():
     if 'session_token' in session:
         del session['session_token']

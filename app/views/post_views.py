@@ -9,8 +9,8 @@ def get_user():
     user = sesh.user
     return user
 
-@login_required
 @post_bp.route("/create", methods=["POST"])
+@login_required
 def create():
     data = request.json
     user = get_user()
@@ -20,8 +20,8 @@ def create():
     except:
         return jsonify({'error':True, 'message': 'Something went wrong :('}), 500
 
-@login_required
 @post_bp.route("/get/<uid>", methods=["GET"])
+@login_required
 def get(uid):
     try:
         try:
@@ -44,8 +44,8 @@ def get(uid):
         return jsonify({"error": True, "message": "I don't fucking know"}), 504
 
 
-@login_required
 @post_bp.route("/get", methods=["GET"])
+@login_required
 def get_list():
 
     res = []
@@ -71,8 +71,8 @@ def get_list():
     return jsonify(res)
     
 
-@login_required
 @post_bp.route("/like/<post_uid>/add", methods=["POST"])
+@login_required
 def add_like(post_uid):
 
     user = get_user()
@@ -90,8 +90,8 @@ def add_like(post_uid):
         return jsonify({'error': True, 'message': 'An unknown error occurred.'}), 500
 
 
-@login_required
 @post_bp.route("/like/<post_uid>/remove", methods=["DELETE"])
+@login_required
 def remove_like(post_uid):
 
     user = get_user()

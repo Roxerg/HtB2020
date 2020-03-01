@@ -23,15 +23,15 @@ from post_views import get_user
 banking_bp = Blueprint('banking', __name__)
 
 
-@login_required
 @banking_bp.route("/fund", methods=["GET"])
+@login_required
 def fund():
 
     return jsonify({})
 
 
-@login_required
 @banking_bp.route("/getdata", methods=["GET"])
+@login_required
 def get_data():
 
     user = get_user()
@@ -55,8 +55,8 @@ def get_data():
         })
 
 
-@login_required
 @banking_bp.route("/transfer", methods=["PSOT"])
+@login_required
 def transfer():
 
 
