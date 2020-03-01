@@ -3,7 +3,7 @@ import Button from "@material-ui/core/Button";
 import Login from "./views/LoginInterface/LoginInterface.js";
 import Main from "./views/MainInterface/MainInterface.js";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-import { register, login, getCurrentUser } from "./utils";
+import { register, login, getCurrentUser, getCurrentUserBanking } from "./utils";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 
@@ -27,7 +27,7 @@ function App(props) {
 
     if (Object.keys(profile).length == 0) {
         getCurrentUser(setProfile)
-        .then(() => setBanking(setBanking))
+        .then(() => getCurrentUserBanking(setBanking))
 
     }
 

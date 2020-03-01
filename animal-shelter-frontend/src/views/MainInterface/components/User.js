@@ -87,7 +87,7 @@ const User = props => {
                             <div onClick={() => console.log("yo")} style={{ display: "flex", marginTop: "7px", cursor: "pointer" }}>
                                 <img src={BoneIcon} style={{ float: "left", marginRight: "7px", height: "22px" }} />
                                 <p className={classes.typography} style={{ color: "#e2aa42" }}>
-                                    {props.profile.balance || 0} Smackeroonies{" "}
+                                    {props.banking.balance || 0} Smackeroonies{" "}
                                 </p>
                                 {props.profile.is_organisation ? <WithdrawIcon style={{ color: "#e2aa42", position: "absolute", right: "32", marginTop: "-2px" }} /> : <PlusIcon style={{ color: "#e2aa42", position: "absolute", right: "32", marginTop: "-2px" }} />}
                             </div>

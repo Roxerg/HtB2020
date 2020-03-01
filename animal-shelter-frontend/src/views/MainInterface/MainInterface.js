@@ -111,12 +111,12 @@ export default function MainInterface(props) {
                     <Typography variant="h6" className={classes.title}>
                         PawPals
                     </Typography>
-                    <User profile={props.profile} />
+                    <User profile={props.profile} banking={props.banking} />
                 </Toolbar>
             </AppBar>
             <Toolbar className={classes.topToolbar} id="back-to-top-anchor" />
             <div className={classes.mainContent}>
-                <Container maxWidth="md">
+                <Container maxWidth={props.profile.is_organisation ? "md" : "sm"}>
                     {props.profile["is_organisation"] ? (
                         <Grid container spacing={3}>
                             <Grid item xs={8}>
