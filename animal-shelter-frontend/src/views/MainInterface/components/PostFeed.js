@@ -16,9 +16,9 @@ const useStyles = makeStyles(theme => ({
 
 const PostFeed = props => {
     const [posts, setPosts] = useState([]);
-    const [isDirty, setDirty] = useState();
+    const [isDirty, setDirty] = useState(true);
 
-    if (posts.length == 0 || isDirty) {
+    if (isDirty) {
         getPosts(setPosts, setDirty);
     }
 
