@@ -46,6 +46,9 @@ class User(db_wrapper.Model):
                     res[field_name] = value
             except:
                 continue
+        res['balance'] = 0
+        for bank in self.bank_accounts:
+            res['balance'] += bank.balance
         del res['password']
         return res
 
