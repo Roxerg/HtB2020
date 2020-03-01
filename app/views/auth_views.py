@@ -4,6 +4,18 @@ from app.validators import UserValidator
 from datetime import datetime, timedelta
 import functools
 
+import random
+
+import sys
+sys.path.insert(0,'../..')
+
+from vault.py_tm_vault_client.tmvault import TMVaultClient
+from vault.py_tm_vault_client.tmvault.enums import CustomerGender, CustomerTitle
+
+from vault.py_tm_vault_client.tmvault import TMVaultClient
+from datetime import date
+
+
 auth_bp = Blueprint('auth', __name__)
 
 def login_required(view):
@@ -21,9 +33,9 @@ def login_required(view):
                     return view(*args, **kwargs)
             except:
                 session.pop('session_token')
-                return jsonify({'error': True}), 401  
+                return jsonify({'error': True}), 403  
         else:
-            return jsonify({'error': True}), 401   
+            return jsonify({'error': True}), 403   
 
 @login_required
 @auth_bp.route("/currentuser", methods = ["GET"])
@@ -67,8 +79,23 @@ def is_logged_in():
 def register():
     data = request.json
     password = data.pop("password")
+
+    customer_id, account_id = create_account({
+        "title" : data["title"],
+        "first_name" : data["first_name"],
+        "middle_name" : data["middle_name"],
+        "last_name" : data["last_name"],
+        "dob" : date(data["year"], data["month"], data["day"]),
+        "gender" : data["gender"],
+        "nationality" : data["nationality"],
+        "email_address" : data["email_address"],
+        "mobile_phone_number" : data["mobile_phone_number"],
+    })
+    
     try:
-        user = User(**data)
+        user = User(**data, 
+                    vault_account_id = account_id, 
+                    vault_customer_id = customer_id)
     except:
         return jsonify({'error':True, 'message': 'bad request'}), 400
     user.set_password(password)
@@ -110,3 +137,56 @@ def logout():
         return jsonify({'error':False}), 200
     else:
         return jsonify({'error':True, 'message':'No session token found!'}), 400
+
+
+
+#### VAULT API
+
+def create_account(data):
+
+    client = TMVaultClient('/path/to/your/vault-config.json')
+
+    if data["title"] == "mr":
+        data["title"] = CustomerTitle.CUSTOMER_TITLE_MR
+    elif data["title"] == "miss":
+        data["title"] = CustomerTitle.CUSTOMER_TITLE_MISS
+    elif data["title"] == "mrs":
+        data["title"] = CustomerTitle.CUSTOMER_TITLE_MRS
+    else:
+        data["title"] = CustomerTitle.CUSTOMER_TITLE_UNKNOWN
+
+
+    if data["gender"] == "male":
+        data["gender"] = CustomerGender.CUSTOMER_GENDER_MALE
+    elif data["gender"] == "female":
+        data["gender"] = CustomerGender.CUSTOMER_GENDER_FEMALE
+    else: 
+        data["gender"] = CustomerGender.CUSTOMER_GENDER_UNKNOWN
+
+
+    customer_id = ''.join(random.choice("0123456789") for i in range(16))
+
+    customer = client.customers.create_customer(
+        customer_id= customer_id,
+        title= data["title"],
+        first_name=data["first_name"],
+        middle_name=data["middle_name"],
+        last_name=data["last_name"],
+        dob=data["dob"],
+        gender=data["gender"],
+        nationality=data["nationality"],
+        email_address=data["email"],
+        mobile_phone_number=data["mobile_phone_number"]
+    )
+
+    account_id = customer_id+'_account_001'
+
+    customer_account = client.accounts.create_account(
+        account_id=account_id,
+        product_id='aaaahhhhhhhh_current_acc_test',
+        stakeholder_customer_ids=[customer.id_]
+    )
+
+
+
+    return customer_id, account_id
