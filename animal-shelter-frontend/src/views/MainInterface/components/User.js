@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const User = props => {
-    console.log(props);
+    console.log("user", props);
     const classes = useStyles();
     return (
         <>

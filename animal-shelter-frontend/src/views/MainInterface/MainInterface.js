@@ -66,7 +66,7 @@ export default function MainInterface(props) {
                     {props.profile["is_organisation"] ? (
                         <Grid container spacing={3}>
                             <Grid item xs={8}>
-                                <PostFeed />
+                                <PostFeed profile={props.profile} />
                             </Grid>
                             <Grid item xs={4}>
                                 <Paper className={classes.paper}>Secondary Area</Paper>
@@ -81,7 +81,6 @@ export default function MainInterface(props) {
                     )}
                 </Container>
             </div>
-            <AddPost is_organisation={props.profile.is_organisation} />
         </Grid>
     );
 }
