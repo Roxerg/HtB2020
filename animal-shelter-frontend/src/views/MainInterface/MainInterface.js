@@ -11,6 +11,49 @@ import Container from "@material-ui/core/Container";
 import PostFeed from "./components/PostFeed";
 import User from "./components/User";
 import AddPost from "./components/AddPost";
+import useScrollTrigger from "@material-ui/core/useScrollTrigger";
+import Fab from "@material-ui/core/Fab";
+import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
+import Zoom from "@material-ui/core/Zoom";
+import PropTypes from "prop-types";
+
+function ScrollTop(props) {
+    const { children, window } = props;
+    const classes = useStyles();
+    // Note that you normally won't need to set the window ref as useScrollTrigger
+    // will default to window.
+    // This is only being set here because the demo is in an iframe.
+    const trigger = useScrollTrigger({
+        target: window ? window() : undefined,
+        disableHysteresis: true,
+        threshold: 100
+    });
+
+    const handleClick = event => {
+        const anchor = (event.target.ownerDocument || document).querySelector("#back-to-top-anchor");
+
+        if (anchor) {
+            anchor.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+    };
+
+    return (
+        <Zoom in={trigger}>
+            <div onClick={handleClick} role="presentation" className={classes.scrollToTop}>
+                {children}
+            </div>
+        </Zoom>
+    );
+}
+
+ScrollTop.propTypes = {
+    children: PropTypes.element.isRequired,
+    /**
+     * Injected by the documentation to work in an iframe.
+     * You won't need it on your project.
+     */
+    window: PropTypes.func
+};
 
 function Copyright() {
     return (
@@ -43,6 +86,15 @@ const useStyles = makeStyles(theme => ({
     mainContent: {
         padding: theme.spacing(2),
         width: "100%"
+    },
+    scrollToTop: {
+        position: "fixed",
+        bottom: theme.spacing(3),
+        left: "calc(50vw - 50px)"
+    },
+    topToolbar: {
+        height: 0,
+        minHeight: 0
     }
 }));
 
@@ -61,6 +113,7 @@ export default function MainInterface(props) {
                     <User profile={props.profile} />
                 </Toolbar>
             </AppBar>
+            <Toolbar className={classes.topToolbar} id="back-to-top-anchor" />
             <div className={classes.mainContent}>
                 <Container maxWidth="md">
                     {props.profile["is_organisation"] ? (
@@ -81,6 +134,13 @@ export default function MainInterface(props) {
                     )}
                 </Container>
             </div>
+            <ScrollTop {...props}>
+                <Fab color="primary" size="small" aria-label="scroll back to top">
+                    <KeyboardArrowUpIcon />
+                </Fab>
+            </ScrollTop>
+
+            <AddPost is_organisation={props.profile.is_organisation} />
         </Grid>
     );
 }
