@@ -21,11 +21,14 @@ const theme = createMuiTheme({
 
 function App(props) {
     const [profile, setProfile] = useState({});
+    const [banking, setBanking] = useState({});
     const [loginError, setLoginError] = useState(false);
     const [loginSuccess, setLoginSuccess] = useState(false);
 
     if (Object.keys(profile).length == 0) {
-        getCurrentUser(setProfile);
+        getCurrentUser(setProfile)
+        .then(() => setBanking(setBanking))
+
     }
 
     const login_handler = (username, password) => {
@@ -42,7 +45,7 @@ function App(props) {
 
     return (
         <ThemeProvider theme={theme}>
-            {Object.keys(profile).length > 0 ? <Main profile={profile} /> : <Login login={login_handler} register={register} />}
+            {Object.keys(profile).length > 0 ? <Main profile={profile} banking={banking} /> : <Login login={login_handler} register={register} />}
             <Snackbar open={loginError} autoHideDuration={3000} onClose={() => setLoginError(false)}>
                 <Alert onClose={() => setLoginError(false)} severity="error">
                     Login credentials incorrect!
