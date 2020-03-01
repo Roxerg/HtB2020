@@ -33,9 +33,9 @@ def login_required(view):
                     return view(*args, **kwargs)
             except:
                 session.pop('session_token')
-                return jsonify({'error': True}), 401  
+                return jsonify({'error': True}), 403  
         else:
-            return jsonify({'error': True}), 401   
+            return jsonify({'error': True}), 403   
 
 @login_required
 @auth_bp.route("/currentuser", methods = ["GET"])
